@@ -3,8 +3,8 @@ var path = require('path');
 var jsonfile = require('jsonfile');
 
 var app = express();
-//app.use('/dist', express.static(__dirname + '/dist'));
-//app.use('/json', express.static(__dirname + '/json'));
+app.use('/dist', express.static(__dirname + '/dist'));
+app.use('/json', express.static(__dirname + '/json'));
 app.set('port', (process.env.PORT || 5000));
 
 
