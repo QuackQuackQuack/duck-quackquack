@@ -1,9 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueResource from 'vue-resource'
-Vue.use(VueResource)
+import router from './router'
+import resources from './resources'
 
-new Vue({
+/* eslint-disable no-new */
+const app = new Vue({
+  router,
   el: '#app',
-  render: h => h(App)
+  template: '<App/>',
+  components: { App }
 })
+
+export {app, router, resources}

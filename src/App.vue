@@ -1,26 +1,12 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesom11231232111e-vue</a></li>
-    </ul>
-    <ul>
-      <li v-for="item in items">
-        {{ item.name}}
-      <li>
-    </ul>
+    <nav>
+      <li v-for="tab in tabs">
+        <router-link :to="tab.link"  v-on:click="change(tab)">{{ tab.name }}</router-link>
+      </li>
+    </nav>
+    <router-view class="router-view"></router-view>
   </div>
 </template>
 
@@ -29,26 +15,34 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
+      msg: 'Welcome to Vue Example',
+      tabs: [
+        {
+          name: 'list',
+          link: '/list',
+          isActive: false
+        },
+        {
+          name: 'Go to add',
+          link: '/add',
+          isActive: false
+        },
+      ],
       items: []
     }
   },
-  beforeMount() {
-    var HostUrl = '/json/data.json';
-    this.$http.get(HostUrl )
-      .then(function(response) {
-        this.items = response.data;
-        console.log(this.items);
-      }, function(error) {
-        console.log('error in .js:');
-        console.log(error);
-      }
-    );
+  methods : {
+    change: function(s) {
+      this.tab.forEach(function(v) {
+        v.isActive = false
+      })
+      s.isActive = true
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -63,16 +57,52 @@ h1, h2 {
 }
 
 ul {
-  list-style-type: none;
   padding: 0;
+  list-style:none;
+  width:100%;
+  overflow:hidden;
+  border-bottom:1px solid #ececec;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
+li > div {
+  padding: 5px 10px;
+  border: 1px solid #ececec;
+  text-align: left;
+  font-size: 12px;
+  border-bottom:0px;
 }
+li:nth-child(odd) > div {
+}
+
 
 a {
   color: #42b983;
 }
+
+
+nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #e7e7e7;
+  background-color: #f3f3f3;
+}
+nav li {
+  float:left;
+}
+nav li a {
+  display: block;
+  color: #666;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+nav li a.router-link-active {
+  color: white;
+  background-color: #008CBA;
+}
+
+
+
 </style>
