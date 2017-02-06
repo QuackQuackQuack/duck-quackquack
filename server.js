@@ -97,29 +97,39 @@ app.get('/api/edit/:id/', function (req, res) {
   });
 });
 
-app.post('/api/edit/:id/', function (req, res) {
-  var sql = 'UPDATE deal SET title=:t, subtitle=:s, cost=:c, price:p, quantity:q WHERE @id=:id';
-  var id = req.params.id;
+app.post('/edit/:id', function (req, res) {
   var title = req.body.title;
-  var subtitle = req.body.subtitle;
+  var subtitle = req.body.sub_title;
   var cost = req.body.cost;
   var price = req.body.price;
   var quantity = req.body.quantity;
-  db.query(sql, {
-    params: {
-      t: title,
-      s: subtitle,
-      c: cost,
-      p: price,
-      q: quantity,
-      id: id
+  var id = req.params.id;
+  var sql = 'UPDATE deal SET title=?, sub_title=?, cost=?, price=?, quantity=? WHERE id=?';
+  connection.query(sql, [title, subtitle, cost, price, quantity, id], function (err, rows) {
+    if (err) {
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.redirect('/#/view/' + id);
     }
-  }).then(function () {
-    res.redirect('/#/view/:id');
   });
 });
 
 
+// app.post('/topic/:id/edit', function (req, res) {
+//   var title = req.body.title;
+//   var description = req.body.description;
+//   var author = req.body.author;
+//   var id = req.params.id;
+//   var sql = 'UPDATE topic SET title=?, description=?, author=? WHERE id=?';
+//   connection.query(sql, [title, description, author, id], function (err, rows) {
+//     if (err) {
+//       res.status(500).send('Internal Server Error');
+//       console.log(err);
+//     } else {
+//       res.redirect('/topic/' + id);
+//     }
+//   });
+// });
 
 
 

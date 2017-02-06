@@ -6,6 +6,7 @@ import index from './components/index.vue'
 import list from './components/list.vue'
 import view from './components/view.vue'
 import add from './components/add.vue'
+import edit from './components/edit.vue'
 
 
 export default new VueRouter({
@@ -14,6 +15,6 @@ export default new VueRouter({
     { path: '/list', component: list, name: 'list'},
     { path: '/view/:id', component: view, name: 'view'},
     { path: '/add', component: add, name: 'add'},
-    { path: '/edit', component: add, name: 'edit'},
+    { path: '/edit/:id', component: edit, name: 'edit'},
   ]
 })

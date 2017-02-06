@@ -1,19 +1,18 @@
 <template>
   <div class="add-data">
-    <form id="contact" action="/add" method="post">
-      <h2>{{msg.add}}</h2>
-      <fieldset>
-        <input placeholder="메인 타이틀" type="text" name="title" tabindex="1" >
-        <input placeholder="서브 타이틀" type="text" name="sub_title" tabindex="2">
-        <input placeholder="원래 가격" type="text" name="cost" tabindex="3">
-        <input placeholder="판매 가격" type="text" name="price" tabindex="4">
-        <input placeholder="판매된 수량" type="text" name="quantity" tabindex="5">
+    <form id="contact" v-bind:action="'/edit/' + itemid" method="post" prop="item in items">
+      <h2>{{msg.edit}}</h2>
+      <fieldset v-for="item in items">
+        <input placeholder="메인 타이틀" type="text" name="title" tabindex="1" v-bind:value="item.title">
+        <input placeholder="서브 타이틀" type="text" name="sub_title" tabindex="2" v-bind:value="item.sub_title">
+        <input placeholder="원래 가격" type="text" name="cost" tabindex="3" v-bind:value="item.cost">
+        <input placeholder="판매 가격" type="text" name="price" tabindex="4" v-bind:value="item.price">
+        <input placeholder="판매된 수량" type="text" name="quantity" tabindex="5" v-bind:value="item.quantity">
         <button name="submit" type="submit" id="" data-submit="submit">Submit</button>
       </fieldset>
     </form>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -22,8 +21,22 @@ export default {
     return {
       msg: {
         edit: 'Edit Data',
-      }
+      },
+      items: {},
+      itemid: '',
     }
+  },
+  beforeMount() {
+    var HostUrl = '/api/edit/'+ this.$route.params.id;
+    this.$http.get(HostUrl)
+      .then(function(response) {
+        this.items = response.data;
+        this.itemid = this.items[0].id;
+      }, function(error) {
+        console.log('error in .js:');
+        console.log(error);
+      }
+    );
   }
 }
 </script>

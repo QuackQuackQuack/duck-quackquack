@@ -1,21 +1,22 @@
 <template>
   <div id="app" class="wmp_recommend">
     <div>
-      <input v-model="query">
+      <label>이름 검색 : </label>
+      <input v-model="query"></dd>
     </div>
     <div class="section_recomlist">
       <ul class="list_combine">
-        <li v-for="item in computedList" v-bind:key="item.sub_title">
+        <li v-for="(item, index) in computedList" v-bind:key="item.title">
           <div class="link">
             <a v-bind:href="'/#/view/'+ item.id">
               <span class="box_thumb">
               	<img class="lazy" src="http://img.wemep.co.kr/deal/3/382/1663823/2a0f93ba557bb118b49f90ef4e7908dc6f53ac28.jpg">
               </span>
               <span class="box_desc">
-                <span class="standardinfo">{{ item.title}}</span>
-              	<strong class="tit_desc">{{ item.sub_title}}</strong>
+                <span class="standardinfo">{{item.sub_title}}</span>
+              	<strong class="tit_desc">{{item.title}}</strong>
   		          <span class="txt_info ">
-              		<span class="discount">92<span class="percent">%</span></span>
+              		<span class="discount">{{dealPercent[index]}}<span class="percent">%</span></span>
               		<span class="price">
                     <span class="prime">{{ item.cost}}<span class="won">원</span></span>
               		  <span class="sale">{{ item.price}}<span class="won">원</span></span>
@@ -42,10 +43,21 @@ export default {
   },
   computed: {
     computedList: function () {
-      var vm = this
+      var vm = this;
       return this.items.filter(function (item) {
-        return item.sub_title.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
+        return item.title.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1;
       })
+    },
+    dealPercent: function () {
+      return this.items.map(function(item) {
+        var rate = 100- (item.price*100/ item.cost);
+        var result = rate.toFixed();
+        if (result === 'Infinity' || result === '-Infinity') {
+          return 0;
+        } else {
+          return result;
+        }
+      });
     }
   },
   beforeMount() {
@@ -64,8 +76,8 @@ export default {
 
 <style scoped>
 .wmp_recommend {overflow:hidden;}
-.section_recomlist {overflow:hidden;width:937px;}
-.list_combine {overflow:hidden;margin:0;width:939px;padding:1px 0 13px 1px;background-color:#f5f5f5;}
+.section_recomlist {overflow:hidden;}
+.list_combine {overflow:hidden;margin:0;padding-bottom:20px;}
 .list_combine li {
   float: left;
   position: relative;
@@ -102,7 +114,7 @@ export default {
 .list_combine li .box_desc .discount {
   overflow: hidden;
   float: left;
-  width: 72px;
+  margin-right:15px;
   font-size: 40px;
   color: #ce1710;
   font-family: Tahoma;

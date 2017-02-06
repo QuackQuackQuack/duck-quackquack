@@ -26,12 +26,7 @@ export default {
           name: 'add',
           link: '/add',
           isActive: false
-        },
-        {
-          name: 'edit',
-          link: '/edit',
-          isActive: false
-        },
+        }
       ],
       items: []
     }
