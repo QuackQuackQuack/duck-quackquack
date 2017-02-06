@@ -6,7 +6,7 @@
         <tbody v-for="item in items">
           <tr>
             <th>서브타이틀</th>
-            <td>{{item.sub_title}} 원</td>
+            <td>{{item.sub_title}}</td>
           </tr>
           <tr>
             <th>원가</th>
