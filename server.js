@@ -50,7 +50,7 @@ app.get('/api/list', function (req, res) {
 });
 
 
-
+//Write
 app.post('/add', function (req, res) {
   // console.log('dasdas');
   var title = req.body.title;
@@ -81,6 +81,45 @@ app.post('/add', function (req, res) {
     }
   });
 });
+
+
+//Edit
+app.get('/api/edit/:id/', function (req, res) {
+  var id = req.params.id;
+  var sql = 'SELECT * FROM deal WHERE id=?';
+  connection.query(sql, [id], function (err, rows) {
+    if (err) {
+      res.status(500).send('Internal Server Error');
+      console.log(err);
+    } else {
+      res.json(rows);
+    }
+  });
+});
+
+app.post('/api/edit/:id/', function (req, res) {
+  var sql = 'UPDATE deal SET title=:t, subtitle=:s, cost=:c, price:p, quantity:q WHERE @id=:id';
+  var id = req.params.id;
+  var title = req.body.title;
+  var subtitle = req.body.subtitle;
+  var cost = req.body.cost;
+  var price = req.body.price;
+  var quantity = req.body.quantity;
+  db.query(sql, {
+    params: {
+      t: title,
+      s: subtitle,
+      c: cost,
+      p: price,
+      q: quantity,
+      id: id
+    }
+  }).then(function () {
+    res.redirect('/#/view/:id');
+  });
+});
+
+
 
 
 

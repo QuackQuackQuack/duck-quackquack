@@ -15,7 +15,7 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Vue Example',
+      msg: 'Welcome to Vue',
       tabs: [
         {
           name: 'list',
@@ -23,8 +23,13 @@ export default {
           isActive: false
         },
         {
-          name: 'Go to add',
+          name: 'add',
           link: '/add',
+          isActive: false
+        },
+        {
+          name: 'edit',
+          link: '/edit',
           isActive: false
         },
       ],

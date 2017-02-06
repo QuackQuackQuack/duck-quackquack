@@ -1,29 +1,32 @@
 <template>
   <div id="app" class="wmp_recommend">
+    <div>
+      <input v-model="query">
+    </div>
     <div class="section_recomlist">
-    <ul class="list_combine">
-      <li v-for="item in items">
-        <div class="link">
-          <a href="">
-            <span class="box_thumb">
-            	<img class="lazy" src="http://img.wemep.co.kr/deal/3/382/1663823/2a0f93ba557bb118b49f90ef4e7908dc6f53ac28.jpg">
-            </span>
-            <span class="box_desc">
-              <span class="standardinfo">{{ item.title}}</span>
-            	<strong class="tit_desc">{{ item.sub_title}}</strong>
-		          <span class="txt_info ">
-            		<span class="discount">92<span class="percent">%</span></span>
-            		<span class="price">
-                  <span class="prime">{{ item.cost}}<span class="won">원</span></span>
-            		  <span class="sale">{{ item.price}}<span class="won">원</span></span>
-            	  </span>
+      <ul class="list_combine">
+        <li v-for="item in computedList" v-bind:key="item.sub_title">
+          <div class="link">
+            <a v-bind:href="'/#/view/'+ item.id">
+              <span class="box_thumb">
+              	<img class="lazy" src="http://img.wemep.co.kr/deal/3/382/1663823/2a0f93ba557bb118b49f90ef4e7908dc6f53ac28.jpg">
               </span>
-              <span class="txt_num"><strong class="point">{{ item.quantity}}</strong>개 구매</span>
-            </span>
-          </a>
-        </div>
-      <li>
-    </ul>
+              <span class="box_desc">
+                <span class="standardinfo">{{ item.title}}</span>
+              	<strong class="tit_desc">{{ item.sub_title}}</strong>
+  		          <span class="txt_info ">
+              		<span class="discount">92<span class="percent">%</span></span>
+              		<span class="price">
+                    <span class="prime">{{ item.cost}}<span class="won">원</span></span>
+              		  <span class="sale">{{ item.price}}<span class="won">원</span></span>
+              	  </span>
+                </span>
+                <span class="txt_num"><strong class="point">{{ item.quantity}}</strong>개 구매</span>
+              </span>
+            </a>
+          </div>
+        <li>
+      </ul>
     </div>
   </div>
 </template>
@@ -33,7 +36,16 @@ export default {
   name: 'app',
   data () {
     return {
+      query: '',
       items: []
+    }
+  },
+  computed: {
+    computedList: function () {
+      var vm = this
+      return this.items.filter(function (item) {
+        return item.sub_title.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
+      })
     }
   },
   beforeMount() {

@@ -1,7 +1,7 @@
 <template>
   <div class="add-data">
     <form id="contact" action="/add" method="post">
-      <h2>{{msg}}</h2>
+      <h2>{{msg.add}}</h2>
       <fieldset>
         <input placeholder="메인 타이틀" type="text" name="title" tabindex="1" >
       </fieldset>
@@ -18,7 +18,7 @@
         <input placeholder="판매된 수량" type="text" name="quantity" tabindex="5">
       </fieldset>
       <fieldset>
-        <button name="submit" type="submit" id="" data-submit="...Sending">Submit</button>
+        <button name="submit" type="submit" id="" data-submit="submit">Submit</button>
       </fieldset>
     </form>
   </div>
@@ -30,8 +30,13 @@ export default {
   name: 'add',
   data () {
     return {
-      msg: 'Add Data'
+      msg: {
+        edit: 'Edit Data',
+      }
     }
+  },
+  beforeMount() {
+    console.log('dad');
   }
 }
 </script>
