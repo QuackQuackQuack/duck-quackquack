@@ -418,12 +418,12 @@ app.get('/deal/:id/list', function(req, res, next) {
   switch (req.params.id) {
     case '1':
       if (sortcd == 2) {
-        res.json(data1_sort);
+        res.jsonp(data1_sort);
       } else {
         if (output == 2) {
-          res.json(noData);
+          res.jsonp(noData);
         } else {
-          res.json(data_type);
+          res.jsonp(data_type);
         }
       }
     break;
